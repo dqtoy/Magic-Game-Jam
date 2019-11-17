@@ -14,6 +14,7 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
     public GameObject treadmill;
     public GameObject userSamplePad;
     public GameObject frogSamplePad;
+    public GameObject magicSpell;
 
     public Animator playerAC;
     public Animator treadmillAC;
@@ -59,6 +60,13 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
 
     AudioSource tempoAudio;
 
+    public GameObject[] enemiesToSpawn;
+    public GameObject currentEnemy;
+
+    public char[] beatUnlockOrder = { 'q', 'w', 'e', 'a' };
+    public char[] trackUnlockOrder = { 's', 'd', 'z', 'x', 's' };
+
+
     private void Awake()
     {
         instance = this;
@@ -71,8 +79,21 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
         AddState<PlayerBattleState>();
         AddState<PlayerConfirmState>();
         AddState<GameWonState>();
+        AddState<LearnedNewSampleState>();
 
         SetInitialState<IdleState>();
+    }
+
+    public void spawnSpell(Vector3 pos, float delay) {
+        StartCoroutine(spawnSpellCoroutine(delay, pos));
+    }
+
+    public IEnumerator spawnSpellCoroutine(float delay, Vector3 pos) {
+
+        yield return new WaitForSeconds(delay);
+        GameObject spellSpawned = Instantiate(magicSpell);
+        spellSpawned.transform.position = pos;
+        Destroy(spellSpawned, 0.5f);
     }
 
     public override void Start()
@@ -181,22 +202,7 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
         measuresSoFar++;
 
 
-        foreach (char c in loopingSamples) {
-            //check to see if it is close to finished
-
-           
-            if (!samplePadButtonMap[c].audiosrc.isPlaying)
-            {
-                //samplePadButtonMap[c].animateButton(0f);
-                samplePadButtonMap[c].audiosrc.loop = true;
-                samplePadButtonMap[c].audiosrc.Stop();
-                
-                samplePadButtonMap[c].audiosrc.Play();
-
-            }
-            
-            
-        }
+       
 
 
     }
@@ -291,6 +297,17 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
         }
 
 
+    }
+
+    public GameObject spawnEnemy() {
+        return currentEnemy = Instantiate(enemiesToSpawn[currentBossNumber], treadmill.transform);
+    }
+
+    public void destroyCurrentEnemy()
+    {
+        spawnSpell(currentEnemy.transform.position, 0f);
+        currentEnemy.transform.DOLocalMove(new Vector3(50, 0f, 0f), 1f);
+        Destroy(currentEnemy, 1f);
     }
 
 

@@ -1,13 +1,13 @@
 ﻿{
-    "boss": "q",
+    "boss": "boss1",
     "fight": [
 
         {
-            "numMeasures" : 2,
+            "numMeasures" : 1,
             "inputs": [
                 {
                     "key": "q",
-                    "data": [ 0.0, 0.5, 1.0, 1.5 ]
+                    "data": [ 0.0, 0.25, 0.5, 0.625 ]
                 },
                 {
                     "key": "w",
@@ -27,7 +27,7 @@
                 },
                 {
                     "key": "z",
-                    "data": [ ]
+                    "data": []
                 }
 
             ]
@@ -35,11 +35,11 @@
         
 
         {
-            "numMeasures": 2,
+            "numMeasures": 1,
             "inputs": [
                 {
                     "key": "q",
-                    "data": [  ]
+                    "data": [0.0, 0.25, 0.5, 0.75 ]
                 },
                 {
                     "key": "w",
@@ -55,7 +55,7 @@
                 },
                 {
                     "key": "z",
-                    "data": [0.0]
+                    "data": []
                 }
             ]
         }

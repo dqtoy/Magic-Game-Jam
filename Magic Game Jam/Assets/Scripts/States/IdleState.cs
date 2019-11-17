@@ -14,6 +14,24 @@ public class IdleState : ByTheTale.StateMachine.State
         GameManagerScript.instance.playerAC.SetBool("isSitting", false);
         GameManagerScript.instance.treadmillAC.SetBool("isIdle", false);
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GameManagerScript.instance.samplePadButtonMap['q'].playSample(0f);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            GameManagerScript.instance.samplePadButtonMap['w'].playSample(0f);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GameManagerScript.instance.samplePadButtonMap['e'].playSample(0f);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            GameManagerScript.instance.samplePadButtonMap['a'].playSample(0f);
+        }
+
+
 
     }
 

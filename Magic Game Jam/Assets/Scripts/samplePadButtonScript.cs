@@ -12,10 +12,11 @@ public class samplePadButtonScript : MonoBehaviour
     public Sprite buttonDownSprite;
     public AudioClip sample;
     public AudioSource audiosrc;
-    Light2D light;
+    public Light2D light;
     public bool playsOnBeat = false;
     public int numMeasures;
     public bool looping = false;
+    public Color baseColor = Color.white;
 
     void Start()
     {
@@ -23,7 +24,6 @@ public class samplePadButtonScript : MonoBehaviour
         GameManagerScript.instance.samplePadButtonMap[assocKey] = this;
         audiosrc = gameObject.AddComponent<AudioSource>();
         audiosrc.clip = sample;
-        light.gameObject.SetActive(false);
         //audiosrc.loop = looping;
     }
 
@@ -46,7 +46,8 @@ public class samplePadButtonScript : MonoBehaviour
 
     }
     public void animateButton(float delay) {
-        
+
+        GameManagerScript.instance.spawnSpell(transform.position, delay);
         StartCoroutine(startButtonAnimation(delay));
     }
 
@@ -55,14 +56,14 @@ public class samplePadButtonScript : MonoBehaviour
         yield return new WaitForSeconds(delay);
         
         StartCoroutine(makeButtonFinish());
-        light.gameObject.SetActive(true);
+        light.color = Color.red;
 
 
 
     }
     public IEnumerator makeButtonFinish() {
         yield return new WaitForSeconds(0.1f);
-        light.gameObject.SetActive(false);
+        light.color = baseColor;
 
 
     }
