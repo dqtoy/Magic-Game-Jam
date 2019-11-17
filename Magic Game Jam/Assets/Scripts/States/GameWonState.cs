@@ -8,6 +8,8 @@ public class GameWonState : ByTheTale.StateMachine.State
     public override void Enter()
     {
         base.Enter();
+        GameManagerScript.instance.playerAC.SetBool("isSitting", false);
+        GameManagerScript.instance.treadmillAC.SetBool("isIdle", false);
 
     }
 

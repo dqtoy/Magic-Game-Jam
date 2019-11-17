@@ -11,6 +11,8 @@ public class IdleState : ByTheTale.StateMachine.State
 
         base.Enter();
         //play drum loop
+        GameManagerScript.instance.playerAC.SetBool("isSitting", false);
+        GameManagerScript.instance.treadmillAC.SetBool("isIdle", false);
 
 
     }

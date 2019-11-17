@@ -9,6 +9,16 @@ using UnityEngine.Experimental.Rendering.LWRP;
 public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
 {
     // Start is called before the first frame update
+
+    public GameObject player;
+    public GameObject treadmill;
+    public GameObject userSamplePad;
+    public GameObject frogSamplePad;
+
+    public Animator playerAC;
+    public Animator treadmillAC;
+
+
     public string[] bossDataJsonFIles;
     public List<BossData> bossDatas = new List<BossData>();
     public TMP_Text currentStateText;
@@ -100,24 +110,35 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
                 }
             }
         }
+        playerAC = player.GetComponent<Animator>();
+        treadmillAC = treadmill.GetComponent<Animator>();
 
-        GameManagerScript.instance.setNewBoss();
 
+        setNewBoss();
+        //StartCoroutine(spaceMovement(player));
+        StartCoroutine(spaceMovement(treadmill));
+        StartCoroutine(spaceMovement(frogSamplePad));
+        StartCoroutine(spaceMovement(userSamplePad));
         //queue up next boss battle
         //could create all of them all at once
-        GameManagerScript.instance.clearPrevBattleAudioSources();
+        clearPrevBattleAudioSources();
 
-        GameManagerScript.instance.queueUpAudioSourcesForNextBattle();
+        queueUpAudioSourcesForNextBattle();
 
     }
 
 
-    //public IEnumerator tempCoroutine() {
-    //    while (true) {
-    //        yield return new WaitForSeconds(timePerMeasure);
-    //        beginningOfMeasure();
-    //    }
-    //}
+    public IEnumerator spaceMovement(GameObject go)
+    {
+        float randomOffset = UnityEngine.Random.value * 2*Mathf.PI;
+        float theta = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(1f/60f);
+            theta += 0.04f;
+            go.transform.localPosition += new Vector3(0f, Mathf.Sin(theta + randomOffset)*0.03f, 0f);
+        }
+    }
 
 
     // Update is called once per frame

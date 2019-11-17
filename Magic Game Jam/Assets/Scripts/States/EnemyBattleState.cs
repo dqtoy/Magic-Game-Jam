@@ -16,6 +16,8 @@ public class EnemyBattleState : ByTheTale.StateMachine.State
         //wait until the beginning of a beat to play this
         timeLeftInFrame = GameManagerScript.instance.timePerMeasure - GameManagerScript.instance.timeInMeasure;
         generateEnemyBeat();
+        GameManagerScript.instance.playerAC.SetBool("isSitting", true);
+        GameManagerScript.instance.treadmillAC.SetBool("isIdle", true);
     }
 
     public override void Execute()
@@ -25,7 +27,7 @@ public class EnemyBattleState : ByTheTale.StateMachine.State
         timeInBattle += Time.deltaTime;
 
         if (timeInBattle > timeLeftInFrame + (GameManagerScript.instance.timePerMeasure * GameManagerScript.instance.currentBattleMeasureLengths[GameManagerScript.instance.currentBattleNumber])) {
-            machine.ChangeState<PlayerConfirmState>();
+            machine.ChangeState<PlayerBattleState>();
         }
 
 
