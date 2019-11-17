@@ -10,6 +10,7 @@ public class ExampleCharacterIdle : ByTheTale.StateMachine.State
         base.Enter();
 
         timeInState = 0;
+        
     }
 
     public override void Execute()
