@@ -1,22 +1,91 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
+using DG.Tweening;
+using UnityEngine.Experimental.Rendering.LWRP;
 
-public class GameManagerScript : MonoBehaviour
+public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
 {
     // Start is called before the first frame update
     public string[] bossDataJsonFIles;
-    List<BossData> bossDatas = new List<BossData>();
+    public List<BossData> bossDatas = new List<BossData>();
+    public TMP_Text currentStateText;
+    public TMP_Text measureDebug;
+    public TMP_Text timeInBattleDebug;
 
-    void Start()
+    public int currentBossNumber = 0;
+    public int currentBattleNumber = 0;
+    public float bpm = 120f;
+    public int measuresInLoop = 1;
+    public float timePerMeasure;
+    public float timeInMeasure = 0f;
+    public float timeAtBeginningOfLastMeasure = 0f;
+    public GameObject tempoHelper;
+    
+    public List<prepBossAudio> currentBossAudioSources = new List<prepBossAudio>();
+
+
+    //everything is either looping on 4, 8, 16, etc
+
+    public static GameManagerScript instance;
+    public int measuresSoFar = 0;
+    public Light2D tempoLight;
+    //these are important :-)
+    public Dictionary<char, samplePadButtonScript> samplePadButtonMap = new Dictionary<char, samplePadButtonScript>();
+
+    //list of 
+    public List<Dictionary<char, float[]>> currentFightData = new List<Dictionary<char, float[]>>();
+
+    //public Dictionary<char, float> loopingSamplesDictionary = new Dictionary<char, float>();
+    //to keep track of everything looping, I could just make a list of looping
+
+
+    public HashSet<char> loopingSamples = new HashSet<char>();
+
+
+    public List<int> currentBattleMeasureLengths = new List<int>();
+
+    AudioSource tempoAudio;
+
+    private void Awake()
     {
+        instance = this;
+    }
+
+    public override void AddStates()
+    {
+        AddState<IdleState>();
+        AddState<EnemyBattleState>();
+        AddState<PlayerBattleState>();
+        AddState<PlayerConfirmState>();
+        AddState<GameWonState>();
+
+        SetInitialState<IdleState>();
+    }
+
+    public override void Start()
+    {
+
+        base.Start();
+        //16 measures
+        tempoAudio = GetComponent<AudioSource>();
+        tempoAudio.Play();
+        //this is say there
+        //bpm/60 = beats per second
+        //there are 1/(beats per second) = seconds per beat
+        //there are 4 beats per measure so 4 * seconds per beat = seconds 4 beats take = beats in a measure
+        tempoLight.gameObject.SetActive(false);
+        timePerMeasure = (1/(bpm/60)) * 4f;
+        timeAtBeginningOfLastMeasure = Time.time;
         foreach (string json in bossDataJsonFIles) {
             TextAsset jsonfile = Resources.Load(json) as TextAsset;
             Debug.Log(jsonfile.text);
 
             bossDatas.Add(JsonUtility.FromJson<BossData>(jsonfile.text));
         }
-
+        beginningOfMeasure();
         foreach (BossData bd in bossDatas) {
             foreach (Battle battle in bd.fight) {
                 foreach (Track t in battle.inputs) {
@@ -31,26 +100,194 @@ public class GameManagerScript : MonoBehaviour
                 }
             }
         }
-        
+
+        GameManagerScript.instance.setNewBoss();
+
+        //queue up next boss battle
+        //could create all of them all at once
+        GameManagerScript.instance.clearPrevBattleAudioSources();
+
+        GameManagerScript.instance.queueUpAudioSourcesForNextBattle();
+
     }
+
+
+    //public IEnumerator tempCoroutine() {
+    //    while (true) {
+    //        yield return new WaitForSeconds(timePerMeasure);
+    //        beginningOfMeasure();
+    //    }
+    //}
+
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
+    {
+        base.Update();
+
+        currentStateText.text = currentState.ToString();
+        timeInMeasure += Time.deltaTime;
+        
+        if (timeInMeasure >= timePerMeasure)
+        {
+            timeInMeasure = 0;
+            beginningOfMeasure();
+        }
+        measureDebug.text = "boss: " + currentBossNumber + "battle: " + currentBattleNumber;
+
+        /*
+        foreach sample in big list of samples
+            if(nummeasures so far % num num measures the loop occupies = 0){
+                stop sample, play sample
+                play the sample
+            }
+
+
+         */
+    }
+
+    public override void FixedUpdate()
     {
         
+
     }
+
+    public void beginningOfMeasure() {
+        //set new listen times here based on the current boss
+        timeAtBeginningOfLastMeasure = Time.time;
+        tempoLight.gameObject.SetActive(true);
+        StartCoroutine(turnLightOff());
+        measuresSoFar++;
+
+
+        foreach (char c in loopingSamples) {
+            //check to see if it is close to finished
+
+           
+            if (!samplePadButtonMap[c].audiosrc.isPlaying)
+            {
+                //samplePadButtonMap[c].animateButton(0f);
+                samplePadButtonMap[c].audiosrc.loop = true;
+                samplePadButtonMap[c].audiosrc.Stop();
+                
+                samplePadButtonMap[c].audiosrc.Play();
+
+            }
+            
+            
+        }
+
+
+    }
+
+    public IEnumerator turnLightOff() {
+        yield return new WaitForSeconds(0.1f);
+        tempoLight.gameObject.SetActive(false);
+    }
+
+
+    //puts the battles into a data structure that has a list of battles
+    //each battle is a dictionary of char to float[], the char being the
+    //key included in the battle, and the float[] being all the times that is pressed
+    public void setNewBoss() {
+
+        currentFightData = new List<Dictionary<char, float[]>>();
+        if (currentBossNumber >= bossDatas.Count) {
+            Debug.Log("game over");
+        }
+
+        BossData boss = bossDatas[currentBossNumber];
+        currentBattleMeasureLengths = new List<int>();
+        foreach (Battle battle in boss.fight) {
+            //each battle is a dictionary
+            //battle is a dictionary mapping the char to the corresponding times it is hit
+            Dictionary<char, float[]> newBattle = new Dictionary<char, float[]>();
+            foreach (Track track in battle.inputs) {
+                try
+                {
+                    newBattle[track.key[0]] = track.data;
+
+                }
+                catch (Exception e) {
+                    Debug.Log("cannot get key");
+                }
+                
+            }
+            currentBattleMeasureLengths.Add(battle.numMeasures);
+            currentFightData.Add(newBattle);
+        }
+
+    }
+
+    // this should be called when you press a button, it should check if you hit a
+    // button within a threshold
+
+    
+
+    //public void handleSamplePressed(char key) {
+
+    //    //checks current beginning
+    //    //time at last measure
+
+    //    float[] timesToCheck = currentFightData[currentBattleNumber][key];
+    //    float currentMeasureTime = Time.time - timeAtBeginningOfLastMeasure;
+    //    foreach (float t in timesToCheck) {
+    //        Debug.Log(key + " was off by " + (currentMeasureTime - t));
+    //        Debug.Log("target time: " + t + ", time hit: " +currentMeasureTime);
+    //    }
+        
+    //}
+
+    public void clearPrevBattleAudioSources()
+    {
+        foreach (prepBossAudio preppedAudioSource in currentBossAudioSources)
+        {
+            Destroy(preppedAudioSource.audioSource.gameObject);
+        }
+        currentBossAudioSources.Clear();
+    }
+
+    public void queueUpAudioSourcesForNextBattle()
+    {
+        
+
+
+        Dictionary<char, float[]> beatDict = currentFightData[currentBattleNumber];
+
+        foreach (char c in beatDict.Keys)
+        {
+            if (!currentFightData[currentBattleNumber].ContainsKey(c)) {
+                continue;
+            }
+            foreach (float sampleTime in currentFightData[currentBattleNumber][c])
+            {
+                AudioSource newAudioSource = new GameObject().AddComponent<AudioSource>();
+                newAudioSource.clip = samplePadButtonMap[c].sample;
+                prepBossAudio newPrep = new prepBossAudio(newAudioSource, instance.timePerMeasure * sampleTime, c);
+                currentBossAudioSources.Add(newPrep);
+
+            }
+        }
+
+
+    }
+
+
 }
 
-
+//JSON helpers
 [System.Serializable]
 public class BossData {
-    public int boss;
+    public string boss;
     public Battle[] fight;
 }
 
+
+//each battle is a list of inputs and their corresponding times
 [System.Serializable]
 public class Battle
 {
+    public int numMeasures;
     public Track[] inputs;
 }
 [System.Serializable]
@@ -58,6 +295,21 @@ public class Track
 {
     public string key;
     public float[] data; 
+}
+
+
+public struct prepBossAudio
+{
+    public AudioSource audioSource;
+    public float delay;
+    public char assocChar;
+
+    public prepBossAudio(AudioSource _audioSource, float _delay, char _assocChar)
+    {
+        audioSource = _audioSource;
+        delay = _delay;
+        assocChar = _assocChar;
+    }
 }
 
 /*
