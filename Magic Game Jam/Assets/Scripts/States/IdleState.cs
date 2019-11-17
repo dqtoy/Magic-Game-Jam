@@ -1,17 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class IdleState : MonoBehaviour
+public class IdleState : ByTheTale.StateMachine.State
 {
+    public GameManagerScript exampleCharacter { get { return (GameManagerScript)machine; } }
     // Use this for initialization
-    void Start()
+    public override void Enter()
     {
+
+        base.Enter();
+        //play drum loop
+
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute()
     {
+        base.Execute();
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            machine.ChangeState<EnemyBattleState>();
+        }
+
 
     }
+
+    
 }
+
+
