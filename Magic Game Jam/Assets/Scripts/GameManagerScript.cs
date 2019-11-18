@@ -9,6 +9,17 @@ using UnityEngine.Experimental.Rendering.LWRP;
 public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
 {
     // Start is called before the first frame update
+
+    public GameObject player;
+    public GameObject treadmill;
+    public GameObject userSamplePad;
+    public GameObject frogSamplePad;
+    public GameObject magicSpell;
+
+    public Animator playerAC;
+    public Animator treadmillAC;
+
+
     public string[] bossDataJsonFIles;
     public List<BossData> bossDatas = new List<BossData>();
     public TMP_Text currentStateText;
@@ -49,6 +60,13 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
 
     AudioSource tempoAudio;
 
+    public GameObject[] enemiesToSpawn;
+    public GameObject currentEnemy;
+
+    public char[] beatUnlockOrder = { 'q', 'w', 'e', 'a', 's' };
+    public char[] trackUnlockOrder = { 'd', 'z', 'x', 'c' };
+
+    int totalMeasures = 0;
     private void Awake()
     {
         instance = this;
@@ -61,14 +79,32 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
         AddState<PlayerBattleState>();
         AddState<PlayerConfirmState>();
         AddState<GameWonState>();
+        AddState<LearnedNewSampleState>();
 
         SetInitialState<IdleState>();
+    }
+
+    public void spawnSpell(Vector3 pos, float delay) {
+        StartCoroutine(spawnSpellCoroutine(delay, pos));
+    }
+
+    public IEnumerator spawnSpellCoroutine(float delay, Vector3 pos) {
+
+        yield return new WaitForSeconds(delay);
+        GameObject spellSpawned = Instantiate(magicSpell);
+        spellSpawned.transform.position = pos;
+        Destroy(spellSpawned, 0.5f);
     }
 
     public override void Start()
     {
 
         base.Start();
+        loopingSamples.Add('s');
+        loopingSamples.Add('d');
+        loopingSamples.Add('z');
+        loopingSamples.Add('x');
+        loopingSamples.Add('c');
         //16 measures
         tempoAudio = GetComponent<AudioSource>();
         tempoAudio.Play();
@@ -100,24 +136,35 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
                 }
             }
         }
+        playerAC = player.GetComponent<Animator>();
+        treadmillAC = treadmill.GetComponent<Animator>();
 
-        GameManagerScript.instance.setNewBoss();
 
+        setNewBoss();
+        //StartCoroutine(spaceMovement(player));
+        StartCoroutine(spaceMovement(treadmill));
+        StartCoroutine(spaceMovement(frogSamplePad));
+        StartCoroutine(spaceMovement(userSamplePad));
         //queue up next boss battle
         //could create all of them all at once
-        GameManagerScript.instance.clearPrevBattleAudioSources();
+        clearPrevBattleAudioSources();
 
-        GameManagerScript.instance.queueUpAudioSourcesForNextBattle();
+        queueUpAudioSourcesForNextBattle();
 
     }
 
 
-    //public IEnumerator tempCoroutine() {
-    //    while (true) {
-    //        yield return new WaitForSeconds(timePerMeasure);
-    //        beginningOfMeasure();
-    //    }
-    //}
+    public IEnumerator spaceMovement(GameObject go)
+    {
+        float randomOffset = UnityEngine.Random.value * 2*Mathf.PI;
+        float theta = 0;
+        while (true)
+        {
+            yield return new WaitForSeconds(1f/60f);
+            theta += 0.04f;
+            go.transform.localPosition += new Vector3(0f, Mathf.Sin(theta + randomOffset)*0.03f, 0f);
+        }
+    }
 
 
     // Update is called once per frame
@@ -150,32 +197,34 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
     {
         
 
+
     }
 
+
+    HashSet<char> itemsLastLoop = new HashSet<char>();
     public void beginningOfMeasure() {
         //set new listen times here based on the current boss
         timeAtBeginningOfLastMeasure = Time.time;
         tempoLight.gameObject.SetActive(true);
         StartCoroutine(turnLightOff());
+        
         measuresSoFar++;
-
-
-        foreach (char c in loopingSamples) {
-            //check to see if it is close to finished
-
-           
-            if (!samplePadButtonMap[c].audiosrc.isPlaying)
-            {
-                //samplePadButtonMap[c].animateButton(0f);
-                samplePadButtonMap[c].audiosrc.loop = true;
-                samplePadButtonMap[c].audiosrc.Stop();
-                
-                samplePadButtonMap[c].audiosrc.Play();
-
+        if (measuresSoFar % 2 == 0) {
+            //see if any new things got added, if so stop all and replay them to make sure they are lined up.
+            Debug.Log(itemsLastLoop.Count);
+            if (!itemsLastLoop.SetEquals(loopingSamples)) {
+                Debug.Log("sets are not equals");
+                foreach (char c in loopingSamples) {
+                    samplePadButtonMap[c].audiosrc.loop = true;
+                    samplePadButtonMap[c].playSample(0f);
+                }
+                itemsLastLoop = new HashSet<char>(loopingSamples);
             }
             
-            
         }
+
+
+       
 
 
     }
@@ -270,6 +319,17 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
         }
 
 
+    }
+
+    public GameObject spawnEnemy() {
+        return currentEnemy = Instantiate(enemiesToSpawn[currentBossNumber], treadmill.transform);
+    }
+
+    public void destroyCurrentEnemy()
+    {
+        spawnSpell(currentEnemy.transform.position, 0f);
+        currentEnemy.transform.DOLocalMove(new Vector3(50, 0f, 0f), 1f);
+        Destroy(currentEnemy, 1f);
     }
 
 

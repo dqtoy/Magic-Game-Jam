@@ -47,11 +47,7 @@ public class PlayerBattleState : ByTheTale.StateMachine.State
 
                 GameManagerScript.instance.currentBattleNumber++;
                 GameManagerScript.instance.timeInBattleDebug.text = "success";
-                foreach (char c in battleInfo.Keys) {
-                    if (c == 'z' || c == 'x' || c == 'c' || c == 'd') {
-                        GameManagerScript.instance.loopingSamples.Add(c);
-                    }
-                }
+                
 
                 
                 if (GameManagerScript.instance.currentBattleNumber >= GameManagerScript.instance.currentFightData.Count)
@@ -71,7 +67,8 @@ public class PlayerBattleState : ByTheTale.StateMachine.State
                     GameManagerScript.instance.clearPrevBattleAudioSources();
 
                     GameManagerScript.instance.queueUpAudioSourcesForNextBattle();
-                    machine.ChangeState<IdleState>();
+                    GameManagerScript.instance.destroyCurrentEnemy();
+                    machine.ChangeState<LearnedNewSampleState>();
 
                     return;
                 }
@@ -88,7 +85,7 @@ public class PlayerBattleState : ByTheTale.StateMachine.State
 
             }
             else {
-                machine.ChangeState<PlayerConfirmState>();
+                machine.ChangeState<EnemyBattleState>();
                 GameManagerScript.instance.timeInBattleDebug.text = "failure";
             }
 
@@ -119,7 +116,7 @@ public class PlayerBattleState : ByTheTale.StateMachine.State
 
     }
 
-    float wiggleRoom = 1f;
+    float wiggleRoom = 0.1f;
     public void handleBattleInput(float time) {
         
         if (battleFinished) {
@@ -143,14 +140,7 @@ public class PlayerBattleState : ByTheTale.StateMachine.State
         {
             handleButtonPress('a', time);
         }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            handleButtonPress('x', time);
-        }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            handleButtonPress('z', time);
-        }
+
     }
     public void handleButtonPress(char key, float time)
     {
