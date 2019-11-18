@@ -1,0 +1,48 @@
+{
+    "boss": "bass",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.25, 0.5, 0.625, 0.75 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.375, 0.75 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.0625, 0.5, 0.5625 ]
+                }
+            ]
+        }
+    ]
+}

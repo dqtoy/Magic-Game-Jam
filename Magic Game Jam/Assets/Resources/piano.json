@@ -1,0 +1,68 @@
+{
+    "boss": "pno",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+            ]
+        }
+    ]
+}

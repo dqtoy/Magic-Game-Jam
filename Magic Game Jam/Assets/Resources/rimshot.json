@@ -1,0 +1,108 @@
+{
+    "boss": "rim",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "a",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "a",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "a",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "a",
+                    "data": [  ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,88 @@
+{
+    "boss": "hh",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "e",
+                    "data": [  ]
+                }
+            ]
+        }
+    ]
+}
