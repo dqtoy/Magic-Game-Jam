@@ -77,10 +77,10 @@ public class LearnedNewSampleState : ByTheTale.StateMachine.State
                 GameManagerScript.instance.samplePadButtonMap[unlockedKey].playSample(0f);
             }
             else {
-                float timeLeftInMeasure = GameManagerScript.instance.timePerMeasure - GameManagerScript.instance.timeInMeasure;
-                GameManagerScript.instance.samplePadButtonMap[unlockedKey].audiosrc.loop = true;
-                GameManagerScript.instance.samplePadButtonMap[unlockedKey].playSample(timeLeftInMeasure);
-                
+                //GameManagerScript.instance.samplePadButtonMap[unlockedKey].audiosrc.loop = true;
+                GameManagerScript.instance.loopingSamples.Add(unlockedKey);
+                //GameManagerScript.instance.samplePadButtonMap[unlockedKey].playSample(timeLeftInMeasure);
+
             }
             machine.ChangeState<IdleState>();
             

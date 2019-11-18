@@ -27,14 +27,14 @@ public class EnemyBattleState : ByTheTale.StateMachine.State
             spawnedEnemy.transform.DOLocalMove(new Vector3(7f, 2f, 0f), 1f);
         }
     }
-
+    float wiggleroom = 0.5f;
     public override void Execute()
     {
         base.Execute();
 
         timeInBattle += Time.deltaTime;
 
-        if (timeInBattle > timeLeftInFrame + (GameManagerScript.instance.timePerMeasure * GameManagerScript.instance.currentBattleMeasureLengths[GameManagerScript.instance.currentBattleNumber])) {
+        if (timeInBattle + wiggleroom > timeLeftInFrame + (GameManagerScript.instance.timePerMeasure * GameManagerScript.instance.currentBattleMeasureLengths[GameManagerScript.instance.currentBattleNumber])) {
             machine.ChangeState<PlayerBattleState>();
         }
 

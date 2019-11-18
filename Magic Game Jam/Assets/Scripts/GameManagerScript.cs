@@ -63,10 +63,10 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
     public GameObject[] enemiesToSpawn;
     public GameObject currentEnemy;
 
-    public char[] beatUnlockOrder = { 'q', 'w', 'e', 'a' };
-    public char[] trackUnlockOrder = { 's', 'd', 'z', 'x', 's' };
+    public char[] beatUnlockOrder = { 'q', 'w', 'e', 'a', 's' };
+    public char[] trackUnlockOrder = { 'd', 'z', 'x', 'c' };
 
-
+    int totalMeasures = 0;
     private void Awake()
     {
         instance = this;
@@ -100,6 +100,11 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
     {
 
         base.Start();
+        loopingSamples.Add('s');
+        loopingSamples.Add('d');
+        loopingSamples.Add('z');
+        loopingSamples.Add('x');
+        loopingSamples.Add('c');
         //16 measures
         tempoAudio = GetComponent<AudioSource>();
         tempoAudio.Play();
@@ -192,14 +197,31 @@ public class GameManagerScript : ByTheTale.StateMachine.MachineBehaviour
     {
         
 
+
     }
 
+
+    HashSet<char> itemsLastLoop = new HashSet<char>();
     public void beginningOfMeasure() {
         //set new listen times here based on the current boss
         timeAtBeginningOfLastMeasure = Time.time;
         tempoLight.gameObject.SetActive(true);
         StartCoroutine(turnLightOff());
+        
         measuresSoFar++;
+        if (measuresSoFar % 2 == 0) {
+            //see if any new things got added, if so stop all and replay them to make sure they are lined up.
+            Debug.Log(itemsLastLoop.Count);
+            if (!itemsLastLoop.SetEquals(loopingSamples)) {
+                Debug.Log("sets are not equals");
+                foreach (char c in loopingSamples) {
+                    samplePadButtonMap[c].audiosrc.loop = true;
+                    samplePadButtonMap[c].playSample(0f);
+                }
+                itemsLastLoop = new HashSet<char>(loopingSamples);
+            }
+            
+        }
 
 
        

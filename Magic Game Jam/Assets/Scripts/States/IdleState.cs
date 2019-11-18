@@ -14,6 +14,20 @@ public class IdleState : ByTheTale.StateMachine.State
         GameManagerScript.instance.playerAC.SetBool("isSitting", false);
         GameManagerScript.instance.treadmillAC.SetBool("isIdle", false);
 
+        
+
+
+
+    }
+
+    public override void Execute()
+    {
+        base.Execute();
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            machine.ChangeState<EnemyBattleState>();
+        }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             GameManagerScript.instance.samplePadButtonMap['q'].playSample(0f);
@@ -30,20 +44,6 @@ public class IdleState : ByTheTale.StateMachine.State
         {
             GameManagerScript.instance.samplePadButtonMap['a'].playSample(0f);
         }
-
-
-
-    }
-
-    public override void Execute()
-    {
-        base.Execute();
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            machine.ChangeState<EnemyBattleState>();
-        }
-
 
     }
 
