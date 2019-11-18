@@ -1,62 +1,528 @@
 ﻿{
-    "boss": "q",
+    "boss": "bd",
     "fight": [
 
         {
-            "numMeasures" : 2,
+            "numMeasures" : 1,
             "inputs": [
                 {
                     "key": "q",
-                    "data": [ 0.0, 0.5, 1.0, 1.5 ]
+                    "data": [ 0.0, 0.25, 0.5 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.25, 0.5, 0.625, 0.75 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.375, 0.75 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.0625, 0.5, 0.5625 ]
+                }
+            ]
+        }
+    ],
+
+
+    "boss": "bass",
+    "fight": [
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.25, 0.5, 0.625 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.5, 0.625 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125,  ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures": 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                }
+            ]
+        }
+
+    ],
+
+
+    "boss": "sn",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.0625, 0.5625, 0.675 ]
                 },
+
                 {
                     "key": "w",
-                    "data": []
-                },
-                {
-                    "key": "e",
-                    "data": []
-                },
-                {
-                    "key": "a",
-                    "data": []
-                },
-                {
-                    "key": "x",
-                    "data": [  ]
-                },
-                {
-                    "key": "z",
-                    "data": [ ]
+                    "data": [ 0.25, 0.75 ]
                 }
 
             ]
         },
-        
+
 
         {
-            "numMeasures": 2,
+            "numMeasures" : 1,
             "inputs": [
                 {
                     "key": "q",
                     "data": [  ]
                 },
+
                 {
                     "key": "w",
                     "data": [  ]
-                },
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
                 {
-                    "key": "e",
+                    "key": "q",
                     "data": [  ]
                 },
+
                 {
-                    "key": "a",
-                    "data": []
-                },
-                {
-                    "key": "z",
-                    "data": [0.0]
+                    "key": "w",
+                    "data": [  ]
                 }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        }
+    ],
+
+
+    "boss": "pno",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        }
+    ],
+
+
+    "boss": "hh",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        }
+    ],
+
+
+    "boss": "gtr1",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        }
+    ],
+
+
+    "boss": "rim",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        }
+    ],
+
+
+    "boss": "gtr2",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [  ]
+                },
+
+                {
+                    "key": "w",
+                    "data": [  ]
+                }
+
             ]
         }
     ]
