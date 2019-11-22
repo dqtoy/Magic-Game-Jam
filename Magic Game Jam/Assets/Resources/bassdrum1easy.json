@@ -1,0 +1,48 @@
+{
+    "boss": "bd",
+    "fight": [
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.25, 0.5 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.375, 0.5 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.0625, 0.4375, 0.5 ]
+                }
+            ]
+        },
+
+
+        {
+            "numMeasures" : 1,
+            "inputs": [
+                {
+                    "key": "q",
+                    "data": [ 0.0, 0.125, 0.625 ]
+                }
+            ]
+        }
+    ]
+}
